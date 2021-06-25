@@ -19,6 +19,7 @@ const options = {
 };
 
 async function main() {
+  console.time('time to upload');
   const files = readdirSync(MOMENT_FOLDER).filter(
     (file) => file !== '.gitkeep'
   );
@@ -54,6 +55,7 @@ async function main() {
         .promise()
     )
   );
+  console.timeEnd('time to upload');
 }
 
 function getEnvStr(key, _default) {
