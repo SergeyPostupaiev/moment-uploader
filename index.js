@@ -13,7 +13,7 @@ const options = {
     secret: getEnvStr('STORAGE_SECRET'),
   },
   pathData: {
-    venue_code: getEnvStr('VENUE_CODE'),
+    stadium_name: getEnvStr('STADIUM_NAME'),
     camera_name: getEnvStr('CAMERA_NAME'),
   },
 };
@@ -28,12 +28,15 @@ async function main() {
   let timestamp = date.getTime();
   const currentDate = date.toISOString().split('T')[0].replace(/-/g, '');
 
-  const storageKeys = files.map((file) => ({
-    key: `${S3_FOLDER}/${options.pathData.venue_code}/${
-      options.pathData.camera_name
-    }/${currentDate}/${++timestamp}_${RESERVED}${extname(file)}`,
-    filePath: `${MOMENT_FOLDER}/${file}`,
-  }));
+  const storageKeys = files.map((file) => {
+    timestamp += 500;
+    return {
+      key: `${S3_FOLDER}/${options.pathData.stadium_name}/${
+        options.pathData.camera_name
+      }/${currentDate}/${timestamp}_${RESERVED}${extname(file)}`,
+      filePath: `${MOMENT_FOLDER}/${file}`,
+    };
+  });
 
   console.log(storageKeys);
   console.log('total momentOs uploaded', storageKeys.length);
